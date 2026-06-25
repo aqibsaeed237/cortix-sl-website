@@ -1,8 +1,7 @@
 import type { LandingData, WaitlistResult } from "./types";
 
-const API_URL = (
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000"
-).replace(/\/$/, "");
+/** Same-origin Next.js proxy avoids CORS and works when env vars are missing on Vercel. */
+const API_BASE = "/api";
 
 function extractErrorMessage(text: string, status: number): string {
   const trimmed = text.trim();
@@ -48,7 +47,7 @@ async function parseJson<T>(res: Response): Promise<T> {
 }
 
 export async function fetchLandingData(): Promise<LandingData> {
-  const res = await fetch(`${API_URL}/public/landing`, {
+  const res = await fetch(`${API_BASE}/landing`, {
     cache: "no-store",
   });
   return parseJson<LandingData>(res);
@@ -58,7 +57,7 @@ export async function submitWaitlist(email: string): Promise<WaitlistResult> {
   const normalized = email.trim().toLowerCase();
   let res: Response;
   try {
-    res = await fetch(`${API_URL}/public/waitlist`, {
+    res = await fetch(`${API_BASE}/waitlist`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: normalized }),

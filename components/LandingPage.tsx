@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { IPhoneMockup } from "./IPhoneMockup";
 import { ScreenshotThumb } from "./ScreenshotThumb";
+import { StoreBadges, PlayStoreBadge } from "./StoreBadges";
 import { useLandingData } from "@/hooks/useLandingData";
 import {
   formatPhoneDisplay,
@@ -29,9 +30,6 @@ import {
 } from "@/lib/api";
 import {
   DEFAULT_PLAY_STORE_URL,
-  playStoreHref,
-  resolveAppStoreUrl,
-  resolvePlayStoreUrl,
 } from "@/lib/storeLinks";
 import type { LandingData } from "@/lib/types";
 
@@ -196,55 +194,6 @@ function OutlineBtn({
   );
 }
 
-function InstallAppLink({
-  playStoreUrl,
-  label = "Install from Google Play",
-  dark = false,
-  compact = false,
-}: {
-  playStoreUrl?: string;
-  label?: string;
-  dark?: boolean;
-  compact?: boolean;
-}) {
-  const webUrl = resolvePlayStoreUrl(playStoreUrl);
-
-  return (
-    <a
-      href={webUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      onClick={(e) => {
-        if (typeof window !== "undefined" && /android/i.test(navigator.userAgent)) {
-          e.preventDefault();
-          window.location.href = playStoreHref(webUrl);
-          window.setTimeout(() => {
-            window.open(webUrl, "_blank", "noopener,noreferrer");
-          }, 600);
-        }
-      }}
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 8,
-        padding: compact ? "8px 14px" : "11px 18px",
-        borderRadius: 8,
-        background: dark ? "white" : C.navy,
-        color: dark ? C.navy : "white",
-        fontSize: compact ? 13 : 14,
-        fontWeight: 600,
-        fontFamily: F,
-        textDecoration: "none",
-        border: dark ? "none" : undefined,
-      }}
-    >
-      <span style={{ fontSize: 16 }}>▶</span>
-      {label}
-    </a>
-  );
-}
-
 function EmailCapture({
   placeholder = "Enter your email address",
   btnLabel = "Claim your spot →",
@@ -308,11 +257,7 @@ function EmailCapture({
             {message || "You're in! We'll be in touch soon."}
           </span>
         </div>
-        <InstallAppLink
-          playStoreUrl={playStoreUrl}
-          label="Install Cortix SL on Google Play"
-          dark={dark}
-        />
+        <PlayStoreBadge playStoreUrl={playStoreUrl} />
       </div>
     );
   }
@@ -372,32 +317,9 @@ function EmailCapture({
           }}
         >
           <div style={{ marginBottom: 8 }}>{submitError}</div>
-          <div style={{ fontSize: 12, color: dark ? "rgba(255,255,255,0.75)" : C.muted, marginBottom: 8 }}>
-            Having trouble? Install the app directly:
-          </div>
-          <InstallAppLink
-            playStoreUrl={playStoreUrl}
-            label="Get it on Google Play"
-            dark={dark}
-            compact
-          />
+          <PlayStoreBadge playStoreUrl={playStoreUrl} />
         </div>
       )}
-      <div style={{ marginTop: 10, textAlign: "center" }}>
-        <a
-          href={resolvePlayStoreUrl(playStoreUrl)}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            fontSize: 12,
-            color: dark ? "rgba(255,255,255,0.65)" : C.muted,
-            textDecoration: "underline",
-            fontFamily: F,
-          }}
-        >
-          Or skip waitlist — install the app now →
-        </a>
-      </div>
     </div>
   );
 }
@@ -848,74 +770,6 @@ function Testimonial({
   );
 }
 
-function StoreBadges({
-  appStoreUrl,
-  playStoreUrl,
-}: {
-  appStoreUrl?: string;
-  playStoreUrl?: string;
-}) {
-  const badges = [
-    {
-      label: "App Store",
-      sub: "Download on the",
-      icon: "🍎",
-      href: resolveAppStoreUrl(appStoreUrl),
-    },
-    {
-      label: "Google Play",
-      sub: "Get it on",
-      icon: "▶",
-      href: resolvePlayStoreUrl(playStoreUrl),
-    },
-  ];
-
-  return (
-    <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-      {badges.map(({ label, sub, icon, href }) => {
-        const inner = (
-          <>
-            <span style={{ fontSize: 22 }}>{icon}</span>
-            <div>
-              <div
-                style={{
-                  fontSize: 10,
-                  color: "rgba(255,255,255,0.55)",
-                  fontWeight: 500,
-                }}
-              >
-                {sub}
-              </div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "white" }}>
-                {label}
-              </div>
-            </div>
-          </>
-        );
-        const style = {
-          display: "flex",
-          alignItems: "center" as const,
-          gap: 10,
-          background: C.text,
-          borderRadius: 10,
-          padding: "10px 18px",
-          cursor: "pointer" as const,
-          textDecoration: "none" as const,
-        };
-        return href ? (
-          <a key={label} href={href} target="_blank" rel="noopener noreferrer" style={style}>
-            {inner}
-          </a>
-        ) : (
-          <div key={label} style={{ ...style, opacity: 0.45, cursor: "default" }} title="Coming soon">
-            {inner}
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -1290,7 +1144,7 @@ export default function LandingPage() {
               receipt scan, voice entry, smart analytics, and export reports. Built
               for individuals and small businesses.
             </p>
-            <div style={{ marginBottom: 32 }}>
+            <div id="get-app" style={{ marginBottom: 32 }}>
               <FoundingCard
                 data={data}
                 onSubmit={handleWaitlist}
@@ -1770,11 +1624,7 @@ export default function LandingPage() {
             playStoreUrl={contact.play_store_url}
           />
           <div style={{ marginTop: 16 }}>
-            <InstallAppLink
-              playStoreUrl={contact.play_store_url}
-              label="Install from Google Play"
-              dark
-            />
+            <PlayStoreBadge playStoreUrl={contact.play_store_url} />
           </div>
           <div
             style={{
@@ -1855,14 +1705,12 @@ export default function LandingPage() {
                   Cortix SL
                 </span>
               </div>
-              <div
-                style={{
-                  fontSize: 12,
-                  color: "rgba(255,255,255,0.3)",
-                  letterSpacing: "0.12em",
-                }}
-              >
-                SPEND · LEDGER · INTELLIGENCE
+              <div style={{ marginTop: 16 }}>
+                <StoreBadges
+                  appStoreUrl={contact.app_store_url || undefined}
+                  playStoreUrl={contact.play_store_url}
+                  height={40}
+                />
               </div>
             </div>
             <div>
@@ -1976,18 +1824,6 @@ export default function LandingPage() {
                 {contact.company_name}
               </span>{" "}
               · © 2026
-            </div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                fontSize: 11,
-                color: "rgba(255,255,255,0.3)",
-              }}
-            >
-              <Receipt size={12} />
-              {loading ? "Syncing live data..." : "Live data from API"}
             </div>
           </div>
         </div>
