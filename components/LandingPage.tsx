@@ -27,6 +27,12 @@ import {
   telHref,
   whatsappHref,
 } from "@/lib/api";
+import {
+  DEFAULT_PLAY_STORE_URL,
+  playStoreHref,
+  resolveAppStoreUrl,
+  resolvePlayStoreUrl,
+} from "@/lib/storeLinks";
 import type { LandingData } from "@/lib/types";
 
 const C = {
@@ -190,18 +196,69 @@ function OutlineBtn({
   );
 }
 
+function InstallAppLink({
+  playStoreUrl,
+  label = "Install from Google Play",
+  dark = false,
+  compact = false,
+}: {
+  playStoreUrl?: string;
+  label?: string;
+  dark?: boolean;
+  compact?: boolean;
+}) {
+  const webUrl = resolvePlayStoreUrl(playStoreUrl);
+
+  return (
+    <a
+      href={webUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={(e) => {
+        if (typeof window !== "undefined" && /android/i.test(navigator.userAgent)) {
+          e.preventDefault();
+          window.location.href = playStoreHref(webUrl);
+          window.setTimeout(() => {
+            window.open(webUrl, "_blank", "noopener,noreferrer");
+          }, 600);
+        }
+      }}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 8,
+        padding: compact ? "8px 14px" : "11px 18px",
+        borderRadius: 8,
+        background: dark ? "white" : C.navy,
+        color: dark ? C.navy : "white",
+        fontSize: compact ? 13 : 14,
+        fontWeight: 600,
+        fontFamily: F,
+        textDecoration: "none",
+        border: dark ? "none" : undefined,
+      }}
+    >
+      <span style={{ fontSize: 16 }}>▶</span>
+      {label}
+    </a>
+  );
+}
+
 function EmailCapture({
   placeholder = "Enter your email address",
   btnLabel = "Claim your spot →",
   dark = false,
   onSubmit,
   disabled = false,
+  playStoreUrl,
 }: {
   placeholder?: string;
   btnLabel?: string;
   dark?: boolean;
   onSubmit?: (email: string) => Promise<{ message: string }>;
   disabled?: boolean;
+  playStoreUrl?: string;
 }) {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -210,16 +267,21 @@ function EmailCapture({
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleSubmit = async () => {
-    if (!email.includes("@") || submitting || disabled) return;
+    const trimmed = email.trim();
+    if (!trimmed.includes("@") || submitting || disabled) {
+      setSubmitError("Please enter a valid email address.");
+      return;
+    }
     setSubmitting(true);
     setSubmitError(null);
     try {
       if (onSubmit) {
-        const result = await onSubmit(email);
+        const result = await onSubmit(trimmed);
         setMessage(result.message);
       } else {
         setMessage("You're in! We'll be in touch soon.");
       }
+      setEmail("");
       setSubmitted(true);
     } catch (err) {
       setSubmitError(
@@ -234,19 +296,23 @@ function EmailCapture({
     return (
       <div
         style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 10,
-          padding: "12px 16px",
+          padding: "14px 16px",
           background: C.tealLight,
           borderRadius: 8,
           border: `1px solid ${C.teal}40`,
         }}
       >
-        <Check size={18} color={C.teal} />
-        <span style={{ fontSize: 14, fontWeight: 600, color: C.teal }}>
-          {message || "You're in! We'll be in touch soon."}
-        </span>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 12 }}>
+          <Check size={18} color={C.teal} style={{ flexShrink: 0, marginTop: 2 }} />
+          <span style={{ fontSize: 14, fontWeight: 600, color: C.teal, lineHeight: 1.45 }}>
+            {message || "You're in! We'll be in touch soon."}
+          </span>
+        </div>
+        <InstallAppLink
+          playStoreUrl={playStoreUrl}
+          label="Install Cortix SL on Google Play"
+          dark={dark}
+        />
       </div>
     );
   }
@@ -256,16 +322,20 @@ function EmailCapture({
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
         <input
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            if (submitError) setSubmitError(null);
+          }}
           onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
           placeholder={placeholder}
           type="email"
           disabled={submitting || disabled}
+          aria-invalid={submitError ? true : undefined}
           style={{
             flex: 1,
             minWidth: 200,
             padding: "12px 16px",
-            border: `1.5px solid ${dark ? "rgba(255,255,255,0.15)" : C.border}`,
+            border: `1.5px solid ${submitError ? "#DC2626" : dark ? "rgba(255,255,255,0.15)" : C.border}`,
             borderRadius: 8,
             fontSize: 14,
             fontFamily: F,
@@ -284,15 +354,50 @@ function EmailCapture({
               : C.border;
           }}
         />
-        <PrimaryBtn onClick={handleSubmit}>
+        <PrimaryBtn onClick={submitting || disabled ? undefined : handleSubmit}>
           {submitting ? "Saving..." : btnLabel}
         </PrimaryBtn>
       </div>
       {submitError && (
-        <div style={{ fontSize: 12, color: "#DC2626", marginTop: 8 }}>
-          {submitError}
+        <div
+          role="alert"
+          style={{
+            fontSize: 13,
+            color: "#DC2626",
+            marginTop: 8,
+            padding: "10px 12px",
+            background: dark ? "rgba(220,38,38,0.12)" : "#FEF2F2",
+            borderRadius: 6,
+            border: `1px solid ${dark ? "rgba(220,38,38,0.35)" : "#FECACA"}`,
+          }}
+        >
+          <div style={{ marginBottom: 8 }}>{submitError}</div>
+          <div style={{ fontSize: 12, color: dark ? "rgba(255,255,255,0.75)" : C.muted, marginBottom: 8 }}>
+            Having trouble? Install the app directly:
+          </div>
+          <InstallAppLink
+            playStoreUrl={playStoreUrl}
+            label="Get it on Google Play"
+            dark={dark}
+            compact
+          />
         </div>
       )}
+      <div style={{ marginTop: 10, textAlign: "center" }}>
+        <a
+          href={resolvePlayStoreUrl(playStoreUrl)}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            fontSize: 12,
+            color: dark ? "rgba(255,255,255,0.65)" : C.muted,
+            textDecoration: "underline",
+            fontFamily: F,
+          }}
+        >
+          Or skip waitlist — install the app now →
+        </a>
+      </div>
     </div>
   );
 }
@@ -300,9 +405,11 @@ function EmailCapture({
 function FoundingCard({
   data,
   onSubmit,
+  playStoreUrl,
 }: {
   data: LandingData;
   onSubmit: (email: string) => Promise<{ message: string }>;
+  playStoreUrl?: string;
 }) {
   const spots = data.founding_remaining;
   const totalSpots = data.founding_limit;
@@ -408,6 +515,7 @@ function FoundingCard({
         btnLabel={data.spots_available ? "Claim your spot →" : "Join waitlist →"}
         onSubmit={onSubmit}
         disabled={!data.spots_available && data.founding_remaining === 0}
+        playStoreUrl={playStoreUrl}
       />
       <div
         style={{
@@ -752,13 +860,13 @@ function StoreBadges({
       label: "App Store",
       sub: "Download on the",
       icon: "🍎",
-      href: appStoreUrl,
+      href: resolveAppStoreUrl(appStoreUrl),
     },
     {
       label: "Google Play",
       sub: "Get it on",
       icon: "▶",
-      href: playStoreUrl,
+      href: resolvePlayStoreUrl(playStoreUrl),
     },
   ];
 
@@ -799,7 +907,7 @@ function StoreBadges({
             {inner}
           </a>
         ) : (
-          <div key={label} style={style}>
+          <div key={label} style={{ ...style, opacity: 0.45, cursor: "default" }} title="Coming soon">
             {inner}
           </div>
         );
@@ -940,6 +1048,21 @@ function Navbar() {
           <PrimaryBtn size="sm" onClick={() => scrollTo("pricing")}>
             Claim Founding Spot
           </PrimaryBtn>
+          <a
+            href={DEFAULT_PLAY_STORE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontSize: 13,
+              fontWeight: 600,
+              color: C.navy,
+              textDecoration: "none",
+              padding: "8px 12px",
+              fontFamily: F,
+            }}
+          >
+            Get the app
+          </a>
         </div>
         <button
           type="button"
@@ -1168,11 +1291,15 @@ export default function LandingPage() {
               for individuals and small businesses.
             </p>
             <div style={{ marginBottom: 32 }}>
-              <FoundingCard data={data} onSubmit={handleWaitlist} />
+              <FoundingCard
+                data={data}
+                onSubmit={handleWaitlist}
+                playStoreUrl={contact.play_store_url}
+              />
             </div>
             <StoreBadges
               appStoreUrl={contact.app_store_url || undefined}
-              playStoreUrl={contact.play_store_url || undefined}
+              playStoreUrl={contact.play_store_url}
             />
             {error && (
               <div style={{ fontSize: 12, color: C.muted, marginTop: 12 }}>
@@ -1640,7 +1767,15 @@ export default function LandingPage() {
             }
             dark
             onSubmit={handleWaitlist}
+            playStoreUrl={contact.play_store_url}
           />
+          <div style={{ marginTop: 16 }}>
+            <InstallAppLink
+              playStoreUrl={contact.play_store_url}
+              label="Install from Google Play"
+              dark
+            />
+          </div>
           <div
             style={{
               marginTop: 20,

@@ -3,7 +3,9 @@
 import { useCallback, useEffect, useState } from "react";
 import {
   fetchLandingData,
+  formatFetchError,
   formatUserCount,
+  isValidEmail,
   submitWaitlist,
 } from "@/lib/api";
 import type { LandingData, WaitlistResult } from "@/lib/types";
@@ -25,7 +27,7 @@ const FALLBACK: LandingData = {
     phone: "+923116124245",
     whatsapp: "+923116124245",
     app_store_url: "",
-    play_store_url: "",
+    play_store_url: "https://play.google.com/store/apps/details?id=com.techcortix.cortix_sl",
     privacy_url: "",
     terms_url: "",
   },
@@ -42,7 +44,7 @@ export function useLandingData() {
       setData(next);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load live data");
+      setError(formatFetchError(err));
     } finally {
       setLoading(false);
     }
@@ -56,9 +58,16 @@ export function useLandingData() {
 
   const joinWaitlist = useCallback(
     async (email: string): Promise<WaitlistResult> => {
-      const result = await submitWaitlist(email);
-      await refresh();
-      return result;
+      if (!isValidEmail(email)) {
+        throw new Error("Please enter a valid email address.");
+      }
+      try {
+        const result = await submitWaitlist(email);
+        await refresh();
+        return result;
+      } catch (err) {
+        throw new Error(formatFetchError(err));
+      }
     },
     [refresh],
   );
