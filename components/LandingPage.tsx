@@ -75,14 +75,20 @@ function Section({
   bg = C.bg,
   style = {},
   id,
+  className = "",
 }: {
   children: React.ReactNode;
   bg?: string;
   style?: React.CSSProperties;
   id?: string;
+  className?: string;
 }) {
   return (
-    <section id={id} style={{ background: bg, padding: "80px 24px", ...style }}>
+    <section
+      id={id}
+      className={`landing-section${className ? ` ${className}` : ""}`}
+      style={{ background: bg, ...style }}
+    >
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>{children}</div>
     </section>
   );
@@ -264,8 +270,9 @@ function EmailCapture({
 
   return (
     <div>
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+      <div className="email-capture-row">
         <input
+          className="email-capture-input"
           value={email}
           onChange={(e) => {
             setEmail(e.target.value);
@@ -277,17 +284,10 @@ function EmailCapture({
           disabled={submitting || disabled}
           aria-invalid={submitError ? true : undefined}
           style={{
-            flex: 1,
-            minWidth: 200,
-            padding: "12px 16px",
             border: `1.5px solid ${submitError ? "#DC2626" : dark ? "rgba(255,255,255,0.15)" : C.border}`,
-            borderRadius: 8,
-            fontSize: 14,
             fontFamily: F,
             background: dark ? "rgba(255,255,255,0.08)" : C.white,
             color: dark ? "white" : C.text,
-            outline: "none",
-            transition: "border 0.15s",
             opacity: submitting || disabled ? 0.7 : 1,
           }}
           onFocus={(e) => {
@@ -299,9 +299,11 @@ function EmailCapture({
               : C.border;
           }}
         />
-        <PrimaryBtn onClick={submitting || disabled ? undefined : handleSubmit}>
-          {submitting ? "Saving..." : btnLabel}
-        </PrimaryBtn>
+        <div className="email-capture-btn">
+          <PrimaryBtn onClick={submitting || disabled ? undefined : handleSubmit}>
+            {submitting ? "Saving..." : btnLabel}
+          </PrimaryBtn>
+        </div>
       </div>
       {submitError && (
         <div
@@ -339,11 +341,10 @@ function FoundingCard({
 
   return (
     <div
+      className="founding-card"
       style={{
         background: `linear-gradient(135deg, ${C.navyLight} 0%, ${C.white} 100%)`,
         border: `1.5px solid ${C.navy}30`,
-        borderRadius: 16,
-        padding: "28px 24px",
         boxShadow: shadowLg,
       }}
     >
@@ -380,11 +381,10 @@ function FoundingCard({
         </span>
       </div>
       <div
+        className="founding-spots"
         style={{
-          fontSize: 48,
           fontWeight: 800,
           color: C.navy,
-          lineHeight: 1,
           fontFamily: F,
           letterSpacing: "-0.03em",
           marginBottom: 4,
@@ -1088,7 +1088,7 @@ export default function LandingPage() {
     >
       <Navbar />
 
-      <Section style={{ padding: "72px 24px 80px" }}>
+      <Section className="landing-section-hero">
         <div
           style={{
             display: "grid",
@@ -1117,12 +1117,11 @@ export default function LandingPage() {
               </span>
             </div>
             <h1
+              className="hero-title"
               style={{
-                fontSize: 52,
                 fontWeight: 700,
                 color: C.text,
-                lineHeight: 1.1,
-                margin: "0 0 20px",
+                margin: "0 0 16px",
                 letterSpacing: "-0.03em",
               }}
             >
@@ -1131,11 +1130,10 @@ export default function LandingPage() {
               <span style={{ color: C.navy }}>Understand every spend.</span>
             </h1>
             <p
+              className="hero-lead"
               style={{
-                fontSize: 18,
                 color: C.muted,
-                lineHeight: 1.65,
-                margin: "0 0 36px",
+                margin: "0 0 28px",
                 fontWeight: 400,
                 maxWidth: 480,
               }}
@@ -1261,8 +1259,8 @@ export default function LandingPage() {
         <div style={{ textAlign: "center", marginBottom: 52 }}>
           <SectionLabel>Features</SectionLabel>
           <h2
+            className="section-title"
             style={{
-              fontSize: 38,
               fontWeight: 700,
               color: C.text,
               margin: "0 auto",
@@ -1276,7 +1274,7 @@ export default function LandingPage() {
           </h2>
           <p
             style={{
-              fontSize: 17,
+              fontSize: 15,
               color: C.muted,
               marginTop: 16,
               lineHeight: 1.6,
@@ -1303,8 +1301,8 @@ export default function LandingPage() {
         <div style={{ textAlign: "center", marginBottom: 52 }}>
           <SectionLabel>App Preview</SectionLabel>
           <h2
+            className="section-title"
             style={{
-              fontSize: 38,
               fontWeight: 700,
               color: C.text,
               margin: "0 auto",
@@ -1315,7 +1313,7 @@ export default function LandingPage() {
           </h2>
           <p
             style={{
-              fontSize: 17,
+              fontSize: 15,
               color: C.muted,
               marginTop: 16,
               lineHeight: 1.6,
@@ -1343,8 +1341,8 @@ export default function LandingPage() {
         <div style={{ textAlign: "center", marginBottom: 56 }}>
           <SectionLabel>How it works</SectionLabel>
           <h2
+            className="section-title"
             style={{
-              fontSize: 38,
               fontWeight: 700,
               color: C.text,
               margin: "0 auto",
@@ -1414,7 +1412,7 @@ export default function LandingPage() {
               </div>
               <div
                 style={{
-                  fontSize: 17,
+                  fontSize: 15,
                   fontWeight: 600,
                   color: C.text,
                   marginBottom: 10,
@@ -1442,8 +1440,8 @@ export default function LandingPage() {
         <div style={{ textAlign: "center", marginBottom: 52 }}>
           <SectionLabel>Pricing</SectionLabel>
           <h2
+            className="section-title"
             style={{
-              fontSize: 38,
               fontWeight: 700,
               color: C.text,
               margin: "0 auto",
@@ -1452,7 +1450,7 @@ export default function LandingPage() {
           >
             Simple, honest pricing.
           </h2>
-          <p style={{ fontSize: 17, color: C.muted, marginTop: 16 }}>
+          <p style={{ fontSize: 15, color: C.muted, marginTop: 16 }}>
             Start free. Upgrade when you&apos;re ready. Found early — get Pro for
             nothing.
           </p>
@@ -1514,8 +1512,8 @@ export default function LandingPage() {
         <div style={{ textAlign: "center", marginBottom: 48 }}>
           <SectionLabel>Beta Feedback</SectionLabel>
           <h2
+            className="section-title"
             style={{
-              fontSize: 38,
               fontWeight: 700,
               color: C.text,
               letterSpacing: "-0.025em",
@@ -1551,9 +1549,9 @@ export default function LandingPage() {
       </Section>
 
       <section
+        className="landing-cta-section"
         style={{
           background: C.dark,
-          padding: "88px 24px",
         }}
       >
         <div style={{ maxWidth: 600, margin: "0 auto", textAlign: "center" }}>
@@ -1590,12 +1588,11 @@ export default function LandingPage() {
             </span>
           </div>
           <h2
+            className="cta-title"
             style={{
-              fontSize: 44,
               fontWeight: 700,
               color: "white",
-              margin: "0 0 16px",
-              lineHeight: 1.1,
+              margin: "0 0 12px",
               letterSpacing: "-0.03em",
             }}
           >
@@ -1605,9 +1602,9 @@ export default function LandingPage() {
           </h2>
           <p
             style={{
-              fontSize: 17,
+              fontSize: 15,
               color: "rgba(255,255,255,0.5)",
-              margin: "0 0 36px",
+              margin: "0 0 28px",
               lineHeight: 1.6,
             }}
           >
@@ -1833,6 +1830,7 @@ export default function LandingPage() {
         @media (max-width: 900px) {
           .hero-grid {
             grid-template-columns: 1fr !important;
+            gap: 32px !important;
           }
           .hero-phones {
             display: none !important;
@@ -1863,6 +1861,9 @@ export default function LandingPage() {
           .feature-grid,
           .preview-grid {
             grid-template-columns: 1fr !important;
+          }
+          .hero-grid {
+            gap: 24px !important;
           }
         }
       `}</style>

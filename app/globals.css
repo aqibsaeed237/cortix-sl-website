@@ -31,3 +31,149 @@ input {
 a {
   color: inherit;
 }
+
+/* Landing page — standard sizing & mobile layout */
+.landing-section {
+  padding: 40px 16px;
+}
+
+@media (min-width: 640px) {
+  .landing-section {
+    padding: 56px 24px;
+  }
+}
+
+@media (min-width: 900px) {
+  .landing-section {
+    padding: 72px 24px;
+  }
+}
+
+.landing-section-hero {
+  padding-top: 32px;
+  padding-bottom: 48px;
+}
+
+@media (min-width: 640px) {
+  .landing-section-hero {
+    padding-top: 48px;
+    padding-bottom: 64px;
+  }
+}
+
+@media (min-width: 900px) {
+  .landing-section-hero {
+    padding-top: 72px;
+    padding-bottom: 80px;
+  }
+}
+
+.hero-title {
+  font-size: clamp(1.75rem, 4.5vw + 0.25rem, 3.25rem);
+  line-height: 1.12;
+}
+
+.hero-lead {
+  font-size: clamp(0.9375rem, 1vw + 0.75rem, 1.0625rem);
+  line-height: 1.6;
+}
+
+.section-title {
+  font-size: clamp(1.5rem, 2.5vw + 0.5rem, 2.375rem);
+  line-height: 1.15;
+}
+
+.cta-title {
+  font-size: clamp(1.625rem, 3.5vw + 0.5rem, 2.75rem);
+  line-height: 1.12;
+}
+
+.founding-card {
+  padding: 16px;
+  border-radius: 12px;
+}
+
+@media (min-width: 640px) {
+  .founding-card {
+    padding: 20px;
+    border-radius: 14px;
+  }
+}
+
+@media (min-width: 900px) {
+  .founding-card {
+    padding: 24px;
+    border-radius: 16px;
+  }
+}
+
+.founding-spots {
+  font-size: clamp(2rem, 5vw + 0.5rem, 3rem);
+  line-height: 1;
+}
+
+.email-capture-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@media (min-width: 520px) {
+  .email-capture-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+  }
+}
+
+.email-capture-input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  line-height: 1.4;
+  outline: none;
+  transition: border 0.15s;
+}
+
+.email-capture-btn {
+  width: 100%;
+}
+
+.email-capture-btn > button {
+  width: 100%;
+  justify-content: center;
+  min-height: 42px;
+  padding: 10px 18px;
+  font-size: 14px;
+}
+
+@media (min-width: 520px) {
+  .email-capture-btn {
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  .email-capture-btn > button {
+    width: auto;
+    white-space: nowrap;
+  }
+}
+
+.landing-cta-section {
+  padding: 48px 16px;
+}
+
+@media (min-width: 640px) {
+  .landing-cta-section {
+    padding: 64px 24px;
+  }
+}
+
+@media (min-width: 900px) {
+  .landing-cta-section {
+    padding: 80px 24px;
+  }
+}
