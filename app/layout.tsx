@@ -69,6 +69,10 @@ export const metadata: Metadata = {
     images: [ogImage],
   },
   applicationName: siteName,
+  icons: {
+    icon: [{ url: "/favicon.png", type: "image/png", sizes: "any" }],
+    apple: [{ url: "/favicon.png", type: "image/png" }],
+  },
   appleWebApp: {
     capable: true,
     title: siteName,
