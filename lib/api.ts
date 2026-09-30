@@ -53,14 +53,23 @@ export async function fetchLandingData(): Promise<LandingData> {
   return parseJson<LandingData>(res);
 }
 
-export async function submitWaitlist(email: string): Promise<WaitlistResult> {
-  const normalized = email.trim().toLowerCase();
+export type WaitlistPayload = {
+  email: string;
+  /** Where the signup came from, e.g. "ios_waitlist". */
+  source: string;
+  /** Honeypot — must stay empty (hidden from humans). */
+  company?: string;
+  /** Milliseconds the form was on screen before submit (bot check). */
+  elapsed_ms?: number;
+};
+
+export async function submitWaitlist(payload: WaitlistPayload): Promise<WaitlistResult> {
   let res: Response;
   try {
     res = await fetch(`${API_BASE}/waitlist`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: normalized }),
+      body: JSON.stringify({ ...payload, email: payload.email.trim().toLowerCase() }),
     });
   } catch (err) {
     throw new Error(formatFetchError(err));
@@ -85,15 +94,9 @@ export function telHref(phone: string): string {
   return `tel:${phone.replace(/\s/g, "")}`;
 }
 
-export function formatUserCount(count: number): string {
-  if (count >= 1000) return `${Math.floor(count / 100) / 10}k+`;
-  if (count >= 500) return "500+";
-  if (count >= 100) return "100+";
-  if (count > 0) return `${count}+`;
-  return "Join early";
-}
-
+/** Mirrors the backend WaitlistRequest validator (schemas.py) plus a TLD check. */
 export function isValidEmail(email: string): boolean {
   const cleaned = email.trim();
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleaned);
+  if (cleaned.length < 6 || cleaned.length > 320) return false;
+  return /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)*\.[a-z]{2,}$/i.test(cleaned);
 }

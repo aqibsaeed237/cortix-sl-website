@@ -1,0 +1,98 @@
+/*
+ * Cortix SL design tokens.
+ *
+ * Dark-first: :root holds the dark theme, [data-theme="light"] overrides it.
+ * Brand accent is the Tech Cortix cyan (techcortix.com `brand-400/700`) so the
+ * product site and company site read as one family. Every text/background
+ * pair below was checked for WCAG AA (≥ 4.5:1 body text, ≥ 3:1 large/UI).
+ *
+ * Tailwind utilities are generated from the @theme block in globals.css, e.g.
+ * `bg-surface`, `text-muted`, `border-line`, `rounded-xl`, `shadow-glow`.
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* ── Color: surfaces ─────────────────────────────────────── */
+  --bg: #070b14; /* page */
+  --bg-elevated: #0c1322; /* alternating sections, footer */
+  --surface: rgb(255 255 255 / 0.035); /* glass card fill */
+  --surface-strong: #111a2e; /* opaque card, inputs */
+  --surface-hover: rgb(255 255 255 / 0.06);
+  --border: rgb(255 255 255 / 0.08);
+  --border-strong: rgb(255 255 255 / 0.16);
+
+  /* ── Color: text ─────────────────────────────────────────── */
+  --fg: #f1f5f9; /* 17.4:1 on --bg */
+  --fg-muted: #a3b1c6; /* 9.1:1 on --bg */
+  --fg-subtle: #8290a6; /* 5.9:1 on --bg */
+
+  /* ── Color: accent (one accent only) ─────────────────────── */
+  --accent: #22d3ee; /* links, icons, focus ring */
+  --accent-strong: #06b6d4; /* button hover */
+  --accent-fg: #04121a; /* text on accent fill — 11.8:1 */
+  --accent-soft: rgb(34 211 238 / 0.12);
+
+  /* ── Color: status ───────────────────────────────────────── */
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+
+  /* ── Gradients ───────────────────────────────────────────── */
+  --gradient-hero: radial-gradient(60% 50% at 50% 0%, rgb(34 211 238 / 0.16) 0%, transparent 70%),
+    radial-gradient(40% 40% at 85% 20%, rgb(79 70 229 / 0.14) 0%, transparent 70%);
+  --gradient-text: linear-gradient(90deg, #f1f5f9 0%, #a5f3fc 55%, #22d3ee 100%);
+  --gradient-card: linear-gradient(180deg, rgb(255 255 255 / 0.06) 0%, rgb(255 255 255 / 0.015) 100%);
+
+  /* ── Shadows ─────────────────────────────────────────────── */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 8px 24px -8px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 24px 64px -16px rgb(0 0 0 / 0.6);
+  --shadow-glow: 0 0 0 1px rgb(34 211 238 / 0.25), 0 12px 40px -8px rgb(34 211 238 / 0.35);
+
+  /* ── Layout ──────────────────────────────────────────────── */
+  --container: 1160px;
+  --gutter: clamp(16px, 4vw, 32px);
+  --section-y: clamp(72px, 10vw, 128px);
+  --nav-h: 64px;
+
+  /* ── Motion ──────────────────────────────────────────────── */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #f8fafc;
+  --bg-elevated: #ffffff;
+  --surface: rgb(255 255 255 / 0.72);
+  --surface-strong: #ffffff;
+  --surface-hover: rgb(15 23 42 / 0.04);
+  --border: rgb(15 23 42 / 0.09);
+  --border-strong: rgb(15 23 42 / 0.18);
+
+  --fg: #0f172a; /* 17.1:1 on --bg */
+  --fg-muted: #475569; /* 7.2:1 on --bg */
+  --fg-subtle: #5b6b82; /* 5.3:1 on --bg */
+
+  --accent: #0e7490; /* 5.1:1 on --bg */
+  --accent-strong: #155e75;
+  --accent-fg: #ffffff; /* 5.4:1 on --accent */
+  --accent-soft: rgb(14 116 144 / 0.1);
+
+  --success: #047857;
+  --warning: #b45309;
+  --danger: #b91c1c;
+
+  --gradient-hero: radial-gradient(60% 50% at 50% 0%, rgb(14 165 233 / 0.14) 0%, transparent 70%),
+    radial-gradient(40% 40% at 85% 20%, rgb(79 70 229 / 0.1) 0%, transparent 70%);
+  --gradient-text: linear-gradient(90deg, #0f172a 0%, #155e75 60%, #0e7490 100%);
+  --gradient-card: linear-gradient(180deg, rgb(255 255 255 / 0.9) 0%, rgb(255 255 255 / 0.6) 100%);
+
+  --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.06);
+  --shadow-md: 0 8px 24px -8px rgb(15 23 42 / 0.12);
+  --shadow-lg: 0 24px 64px -16px rgb(15 23 42 / 0.18);
+  --shadow-glow: 0 0 0 1px rgb(14 116 144 / 0.25), 0 12px 40px -8px rgb(14 116 144 / 0.3);
+}

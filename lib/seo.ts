@@ -1,94 +1,114 @@
-/** Central SEO config for Cortix SL marketing site */
+/** Central SEO config for the Cortix SL marketing site. */
 
-export const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-  "https://cortix.app";
+import { APP_CURRENCIES } from "./product";
+
+export const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://sl.techcortix.com"
+).replace(/\/$/, "");
 
 export const siteName = "Cortix SL";
 export const companyName = "Tech Cortix";
+export const companyUrl = "https://techcortix.com";
 
 export const seoKeywords = [
-  "expense tracker app",
   "AI expense tracker",
+  "expense tracker app",
   "receipt scanner app",
   "OCR receipt scan",
   "voice expense entry",
   "budget tracker app",
-  "PKR expense tracker",
-  "expense tracker Pakistan",
   "personal finance app",
-  "small business expense tracking",
   "spending tracker",
-  "receipt to expense app",
-  "smart analytics expenses",
-  "export expense reports",
+  "split bills app",
+  "expense tracker Pakistan",
+  "PKR expense tracker",
+  "expense tracker UAE",
+  "AED expense tracker",
   "Cortix SL",
   "Tech Cortix",
-  "founding member expense app",
-  "ledger app",
-  "spend management app",
 ] as const;
 
-export const defaultTitle =
-  "Cortix SL — AI Expense Tracker App | OCR Receipt Scan & Budget Alerts";
+export type FaqItem = { q: string; a: string };
 
-export const defaultDescription =
-  "Cortix SL is an AI-powered expense tracker for Pakistan and beyond. Scan receipts with OCR, add expenses by voice, set budgets, get smart analytics, and export CSV/PDF reports. Free & Pro plans.";
+/** Serialize JSON-LD safely (escape `<` per Next.js guidance). */
+export function jsonLdString(data: unknown): string {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
 
-export const ogImage = `${siteUrl}/og-image.png`;
-
-export function jsonLdSoftwareApplication() {
+export function jsonLdSoftwareApplication(opts: {
+  description: string;
+  playStoreUrl: string;
+}) {
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: siteName,
     applicationCategory: "FinanceApplication",
-    operatingSystem: "Android, iOS",
+    operatingSystem: "Android",
+    url: siteUrl,
+    installUrl: opts.playStoreUrl,
+    downloadUrl: opts.playStoreUrl,
+    image: `${siteUrl}/opengraph-image`,
+    description: opts.description,
+    inLanguage: "en",
     offers: {
       "@type": "Offer",
+      name: "Free plan",
       price: "0",
       priceCurrency: "PKR",
     },
-    description: defaultDescription,
-    keywords: seoKeywords.join(", "),
-    publisher: {
-      "@type": "Organization",
-      name: companyName,
-      url: siteUrl,
-    },
+    publisher: { "@id": `${siteUrl}/#organization` },
     featureList: [
-      "OCR receipt scanning",
-      "Voice expense entry",
-      "AI search",
-      "Budget alerts",
-      "Expense analytics",
-      "CSV Excel PDF export",
+      "Receipt scanning (OCR)",
+      "Voice and AI text expense entry",
+      "Ask AI about your spending",
+      "Budgets and spending alerts",
+      "Analytics and category breakdown",
+      "Split bills",
+      "CSV, Excel and PDF export",
+      `Display currencies: ${APP_CURRENCIES.join(", ")}`,
     ],
   };
 }
 
-export function jsonLdOrganization() {
+export function jsonLdOrganization(opts: { email: string }) {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${siteUrl}/#organization`,
     name: companyName,
-    url: siteUrl,
+    url: companyUrl,
     logo: `${siteUrl}/icon.png`,
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: opts.email,
+      availableLanguage: ["English", "Urdu"],
+    },
+    // TODO(seo): add official social profiles (LinkedIn, X, Instagram…)
     sameAs: [] as string[],
   };
 }
 
-export function jsonLdWebSite() {
+export function jsonLdWebSite(description: string) {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: siteName,
     url: siteUrl,
-    description: defaultDescription,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${siteUrl}/?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
-    },
+    description,
+    publisher: { "@id": `${siteUrl}/#organization` },
+  };
+}
+
+export function jsonLdFaq(items: FaqItem[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((i) => ({
+      "@type": "Question",
+      name: i.q,
+      acceptedAnswer: { "@type": "Answer", text: i.a },
+    })),
   };
 }

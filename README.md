@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cortix SL — marketing site (sl.techcortix.com)
 
-## Getting Started
-
-First, run the development server:
+Next.js 16 (App Router) + Tailwind v4 + Motion. Static page with ISR (60s) so the
+founding-member counter from the TechCortix API stays live.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm run build && npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Variable | Purpose | Default |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Canonical URL, og:url, sitemap | `https://sl.techcortix.com` |
+| `API_URL` / `NEXT_PUBLIC_API_URL` | TechCortix backend | `https://api.techcortix.com` |
+| `NEXT_PUBLIC_PLAY_STORE_URL` | Play Store fallback | package `com.techcortix.cortix_sl` |
+| `NEXT_PUBLIC_APP_STORE_URL` | App Store link (else iOS waitlist) | — |
+| `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | Plausible analytics (cookieless) | off |
+| `NEXT_PUBLIC_GA_ID` | GA4 (`G-…`; needs a consent banner for EU/UK) | off |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Contact details, store URLs and privacy/terms URLs are also editable in the admin
+`app_config` (served by `GET /public/landing`) and override the defaults.
 
-## Learn More
+## Where things live
 
-To learn more about Next.js, take a look at the following resources:
+- `app/tokens.css` — design tokens (colors, shadows, layout, motion); `app/globals.css` maps them to Tailwind.
+- `i18n/` — locale config + `dictionaries/en.ts` (all copy). See `i18n/config.ts` for adding Urdu/Arabic (RTL-ready).
+- `lib/product.ts` — product facts (limits, currencies, plan matrix) sourced from the app/backend code.
+- `lib/pricing.ts` — Pro prices per currency; the currency switcher and yearly toggle appear once prices are filled in.
+- `lib/testimonials.ts` — permissioned quotes only; section hidden while empty.
+- `components/sections/*` — page sections; client components only where interaction needs it.
+- `app/privacy`, `app/terms` — drafts; get legal review before setting `privacy_url` / `terms_url` in admin.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Analytics events
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`cta_click`, `store_click`, `waitlist_submit`, `waitlist_signup`, `demo_used`, `pricing_change`, `contact_click`, `theme_toggle` — see `lib/analytics.ts`.

@@ -1,37 +1,40 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import {
-  defaultDescription,
-  defaultTitle,
-  ogImage,
-  seoKeywords,
-  siteName,
-  siteUrl,
-} from "@/lib/seo";
+import { Analytics } from "@/components/Analytics";
+import { defaultLocale, dirFor, htmlLang } from "@/i18n/config";
+import { getDictionary } from "@/i18n/get-dictionary";
+import { companyName, seoKeywords, siteName, siteUrl } from "@/lib/seo";
+import { themeInitScript } from "@/lib/theme";
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
 });
 
-export const viewport = {
+const t = getDictionary(defaultLocale);
+
+export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#070b14",
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: defaultTitle,
+    default: t.meta.title,
     template: `%s | ${siteName}`,
   },
-  description: defaultDescription,
+  description: t.meta.description,
   keywords: [...seoKeywords],
-  authors: [{ name: "Tech Cortix", url: siteUrl }],
-  creator: "Tech Cortix",
-  publisher: "Tech Cortix",
+  authors: [{ name: companyName, url: "https://techcortix.com" }],
+  creator: companyName,
+  publisher: companyName,
   category: "Finance",
+  applicationName: siteName,
   robots: {
     index: true,
     follow: true,
@@ -45,49 +48,46 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "/",
+    // TODO(i18n): add `languages: { en: "/en", ur: "/ur", ar: "/ar", "x-default": "/" }`
   },
   openGraph: {
-    title: defaultTitle,
-    description: defaultDescription,
-    url: siteUrl,
+    title: t.meta.title,
+    description: t.meta.description,
+    url: "/",
     siteName,
     type: "website",
     locale: "en_US",
-    images: [
-      {
-        url: ogImage,
-        width: 1200,
-        height: 630,
-        alt: "Cortix SL — AI expense tracker with OCR receipt scan",
-      },
-    ],
+    // og:image comes from app/opengraph-image.tsx
   },
   twitter: {
     card: "summary_large_image",
-    title: defaultTitle,
-    description: defaultDescription,
-    images: [ogImage],
-  },
-  applicationName: siteName,
-  icons: {
-    icon: [{ url: "/favicon.png", type: "image/png", sizes: "any" }],
-    apple: [{ url: "/favicon.png", type: "image/png" }],
+    title: t.meta.title,
+    description: t.meta.description,
   },
   appleWebApp: {
     capable: true,
     title: siteName,
-    statusBarStyle: "default",
+    statusBarStyle: "black-translucent",
   },
+  // Icons come from app/icon.png and app/apple-icon.png.
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full`}>
-      <body className="min-h-full antialiased">{children}</body>
+    <html
+      lang={htmlLang[defaultLocale]}
+      dir={dirFor(defaultLocale)}
+      data-theme="dark"
+      className={inter.variable}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body className="min-h-dvh font-sans antialiased">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

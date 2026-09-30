@@ -1,7 +1,7 @@
 /** Android package published as com.techcortix.cortix_sl */
 export const ANDROID_PACKAGE_ID = "com.techcortix.cortix_sl";
 
-/** Scroll target when iOS App Store link is not configured yet */
+/** iOS waitlist section — scroll target while the App Store link is not live. */
 export const GET_APP_SECTION_ID = "get-app";
 
 export const DEFAULT_PLAY_STORE_URL =
@@ -71,7 +71,17 @@ export function openPlayStore(webUrl: string): void {
   window.open(webUrl, "_blank", "noopener,noreferrer");
 }
 
+/** Id of the waitlist email input, focused after scrolling to the section. */
+export const WAITLIST_INPUT_ID = "waitlist-email";
+
 export function scrollToGetApp(): void {
   if (typeof window === "undefined") return;
-  document.getElementById(GET_APP_SECTION_ID)?.scrollIntoView({ behavior: "smooth" });
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document
+    .getElementById(GET_APP_SECTION_ID)
+    ?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+  window.setTimeout(
+    () => document.getElementById(WAITLIST_INPUT_ID)?.focus({ preventScroll: true }),
+    reduce ? 0 : 450,
+  );
 }
