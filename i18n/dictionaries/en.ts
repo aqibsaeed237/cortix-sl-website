@@ -6,7 +6,7 @@ const en = {
   meta: {
     title: "Cortix SL — AI Expense Tracker | Scan Receipts, Speak Expenses, Ask AI",
     description:
-      "Track every expense in seconds. Scan receipts, add expenses by voice, set budgets and ask AI about your spending — in PKR, USD, AED, GBP and more. Built in Pakistan, made for everyone.",
+      "Track spending in Pakistan and abroad. Type an expense, scan a receipt, say it, or paste a bank SMS. Budgets show the day you'll run out, bills repeat, and you can split costs with friends.",
   },
   skipToContent: "Skip to content",
   nav: {
@@ -25,7 +25,7 @@ const en = {
     eyebrow: "Built in Pakistan · Made for everyone",
     titleA: "Track every expense",
     titleB: "in seconds.",
-    lead: "Snap a receipt, say what you spent, or just type it. Cortix SL files it, budgets it and answers questions about your money — in the currency you live in.",
+    lead: "Type it, scan the receipt, say it, or paste a bank SMS. Cortix SL files the expense, shows what is left this month, and tells you the day a budget runs out.",
     primaryCta: "Get it free on Google Play",
     secondaryCta: "Try the live demo",
     microcopy: "Free plan · No card needed · iPhone coming soon",
@@ -34,7 +34,7 @@ const en = {
     floatScanTitle: "Receipt scanned",
     floatScanBody: "PKR 2,500 · KFC · Food",
     floatBudgetTitle: "Food budget",
-    floatBudgetBody: "72% used this month",
+    floatBudgetBody: "At this pace, runs out on the 24th",
     floatAskTitle: "Ask AI",
     floatAskBody: "“How much on transport this week?”",
   },
@@ -42,7 +42,7 @@ const en = {
     label: "What's inside",
     items: [
       { value: "9", label: "display currencies" },
-      { value: "3", label: "ways to add: type, speak, scan" },
+      { value: "4", label: "ways to add: type, scan, speak, SMS" },
       { value: "3", label: "export formats: CSV, Excel, PDF" },
       { value: "0", label: "ads in the app" },
     ],
@@ -51,10 +51,10 @@ const en = {
   features: {
     eyebrow: "Features",
     title: "Everything money needs. Nothing it doesn't.",
-    lead: "Capture is instant, organisation is automatic, and answers are one question away.",
+    lead: "Log spending the way it actually arrives, then see the month before it gets away from you.",
     scan: {
       title: "Scan any receipt",
-      body: "Point your camera at a receipt. AI reads the merchant, amount and date and files it under the right category.",
+      body: "Point your camera at a receipt. AI reads the merchant, amount and date. If the read is uncertain, the app asks you to check those fields before you keep it.",
       merchant: "Merchant",
       amount: "Amount",
       date: "Date",
@@ -76,8 +76,16 @@ const en = {
       body: "Daily, weekly, monthly and yearly charts with a category breakdown.",
     },
     budgets: {
-      title: "Budgets that warn you early",
-      body: "Set category limits and a monthly cap. Get alerts before you overspend.",
+      title: "See the day a budget runs out",
+      body: "Set a monthly cap and category limits. Home shows what is left, and each budget shows the month-end estimate from this month's pace.",
+    },
+    sms: {
+      title: "Paste a bank SMS",
+      body: "Paste debit messages from your bank or wallet. Cortix pulls out the amounts. Credits are skipped, and nothing is saved until you confirm each row.",
+    },
+    recurring: {
+      title: "Bills that come back",
+      body: "Save rent, school fees and subscriptions with a next date. When one is due, add it to this month in one tap and the date moves forward.",
     },
     export: {
       title: "Accountant-ready exports",
@@ -144,11 +152,11 @@ const en = {
       },
       {
         title: "Add expenses your way",
-        body: "Type it, say it, or scan the receipt. Cortix suggests the category — you can always change it.",
+        body: "Type it, say it, scan the receipt, or paste a bank SMS. Cortix suggests the category — you confirm before it sticks.",
       },
       {
         title: "Plan and ask",
-        body: "Set budgets, watch trends, and ask questions like “What did I spend on travel in March?”",
+        body: "Set budgets, watch the day you'll run out, keep recurring bills, split a dinner, and ask “What did I spend on travel in March?”",
       },
     ],
   },
@@ -164,6 +172,9 @@ const en = {
       { label: "Add by voice", us: true, sheet: false, paper: false },
       { label: "Auto-categorise spending", us: true, sheet: false, paper: false },
       { label: "Budget alerts", us: true, sheet: "Manual formulas", paper: false },
+      { label: "See the day a budget runs out", us: true, sheet: "Manual formulas", paper: false },
+      { label: "Paste a bank or wallet SMS", us: true, sheet: false, paper: false },
+      { label: "Recurring bills", us: true, sheet: "Copy the row", paper: false },
       { label: "Charts without setup", us: true, sheet: "Manual", paper: false },
       { label: "Ask questions in plain language", us: true, sheet: false, paper: false },
       { label: "Export for your accountant", us: true, sheet: true, paper: false },
@@ -175,7 +186,7 @@ const en = {
     lead: "No card needed to start. No ads, ever.",
     monthly: "Monthly",
     yearly: "Yearly",
-    save: "Save {pct}%",
+    save: "2 months free",
     currencyLabel: "Currency",
     perMonth: "/month",
     billedYearly: "billed {total} yearly",
@@ -186,7 +197,8 @@ const en = {
       cta: "Get the app",
       bullets: [
         "{entries} expenses per month",
-        "Budgets, alerts & analytics",
+        "Budgets, alerts and a month-end forecast",
+        "Recurring bills and bank-SMS import",
         "Split bills (up to {groups} groups)",
         "9 currencies, light & dark mode",
       ],
@@ -194,7 +206,7 @@ const en = {
     pro: {
       name: "Pro",
       badge: "Most popular",
-      desc: "The full AI experience for people who mean business.",
+      desc: "Unlimited tracking, receipt scan, voice and exports. You pick monthly or yearly in the app; we activate Pro after payment.",
       cta: "Contact us to upgrade",
       priceTbd: "Contact us",
       priceTbdNote: "Pricing in {currency} coming soon",
@@ -304,7 +316,7 @@ const en = {
     items: [
       {
         q: "Is Cortix SL free?",
-        a: "Yes. The Free plan includes {entries} expenses a month, budgets, alerts, analytics and bill splitting. Pro adds receipt scanning, voice and AI entry, AI answers, unlimited expenses and exports.",
+        a: "Yes. Free includes {entries} expenses a month, budgets with a pace forecast, recurring bills, bank-SMS import, analytics and bill splitting. Pro adds receipt scanning, voice and AI entry, AI answers, unlimited expenses, AI splits and exports.",
       },
       {
         q: "Is it available on iPhone?",
@@ -316,15 +328,23 @@ const en = {
       },
       {
         q: "How do I upgrade to Pro?",
-        a: "Message our team by email, WhatsApp or phone and we'll activate Pro on your account. In-app purchase is coming.",
+        a: "In the app, open Subscription, choose monthly (PKR 1,499) or yearly (PKR 14,990, two months free), and send the upgrade request. We confirm payment and turn Pro on. Store checkout is not in the app yet.",
       },
       {
         q: "Which currencies does it support?",
         a: "Choose PKR, USD, EUR, GBP, AED, SAR, INR, CAD or AUD — it's auto-detected from your region and you can change it anytime. Amounts are recorded in the currency you choose; there's no automatic conversion between currencies yet.",
       },
       {
+        q: "Can I add expenses from a bank SMS?",
+        a: "Yes. Paste one or more debit messages. Cortix finds Rs or PKR amounts and skips credits. You untick anything wrong, then save. It does not read your SMS inbox by itself.",
+      },
+      {
+        q: "How do recurring bills work?",
+        a: "Save the merchant, amount and next date. When it is due, Home shows a review row. Add to expenses writes this month's copy and moves the next date forward. The app does not charge the bill for you.",
+      },
+      {
         q: "How does receipt scanning work?",
-        a: "Take a photo or pick one from your gallery. Google Gemini reads the merchant, amount, date and category, and you confirm before saving. We store the extracted details, not the photo.",
+        a: "Take a photo or pick one from your gallery. Google Gemini reads the merchant, amount, date and category. If the read is uncertain, the app asks you to check those fields. We store the extracted details, not the photo.",
       },
       {
         q: "Is my data secure?",

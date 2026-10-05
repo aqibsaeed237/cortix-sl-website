@@ -13,7 +13,7 @@ export const metadata: Metadata = {
  */
 export default function TermsPage() {
   return (
-    <LegalPage title="Terms of service" updated="1 October 2026">
+    <LegalPage title="Terms of service" updated="5 October 2026">
       <p>
         These terms cover your use of the Cortix SL app and sl.techcortix.com, provided by <strong>Tech Cortix</strong>.
         By creating an account you agree to them.
@@ -28,7 +28,7 @@ export default function TermsPage() {
       <h2>Plans</h2>
       <ul>
         <li><strong>Free</strong> includes a monthly expense limit and core features, as described on our pricing section.</li>
-        <li><strong>Pro</strong> is currently activated manually by our team after you contact us. Price and billing terms are confirmed with you before activation.</li>
+        <li><strong>Pro</strong> is PKR 1,499 per month or PKR 14,990 per year (two months free). You choose the plan in the app. We activate it after payment is confirmed. Store checkout is not available yet.</li>
         <li>
           <strong>Founding member</strong> access is assigned automatically to a limited number of early sign-ups and gives
           Pro-level features for the stated period. Afterwards your account moves to Free unless you upgrade.

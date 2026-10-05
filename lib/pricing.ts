@@ -1,9 +1,9 @@
 /**
  * Pro plan pricing.
  *
- * IMPORTANT — no price exists in the backend or app billing today: Pro is
- * activated manually by the team, and there is no yearly plan. Only fill in
- * numbers the business has actually decided.
+ * Matches cortix-sl-backend/app/core/constants.py (PRO_MONTHLY_PRICE,
+ * PRO_YEARLY_PRICE). Checkout is still manual: the app records the plan the
+ * user chose and the team activates Pro after payment.
  *
  * - The currency switcher shows only currencies that have a `monthly` price.
  *   (With a single currency, no switcher is rendered.)
@@ -16,19 +16,16 @@ export type PricingCurrency = (typeof PRICING_CURRENCIES)[number];
 type Price = { monthly: number | null; yearly: number | null };
 
 export const PRO_PRICES: Record<PricingCurrency, Price> = {
-  // TODO(pricing): confirm. The live site showed PKR 499/mo; the app's unused
-  // l10n string `pricePerMonth` says "PKR 1,499 / month" (app_en.arb:416).
-  PKR: { monthly: 499, yearly: null },
-  USD: { monthly: null, yearly: null }, // TODO(pricing): set USD price
-  AED: { monthly: null, yearly: null }, // TODO(pricing): set AED price
-  GBP: { monthly: null, yearly: null }, // TODO(pricing): set GBP price
+  PKR: { monthly: 1499, yearly: 14990 },
+  USD: { monthly: null, yearly: null },
+  AED: { monthly: null, yearly: null },
+  GBP: { monthly: null, yearly: null },
 };
 
 export const YEARLY_BILLING = {
-  // TODO(pricing): turn on once yearly plans exist.
-  enabled: false,
-  /** Used to derive a yearly price when PRO_PRICES[cur].yearly is null. */
-  discountPct: 20,
+  enabled: true,
+  /** Yearly is 10 months (2 free). Shown on the toggle; the billed total is PRO_PRICES.yearly. */
+  discountPct: 17,
 };
 
 export type BillingPeriod = "monthly" | "yearly";

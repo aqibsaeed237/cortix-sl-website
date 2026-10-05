@@ -3,7 +3,9 @@ import {
   Coins,
   FileText,
   Mic,
+  MessageSquare,
   Moon,
+  Repeat,
   ScanLine,
   Search,
   Sheet,
@@ -91,6 +93,10 @@ export function Features({ t }: { t: Dictionary }) {
               </span>
             </div>
           </Cell>
+
+          <Cell className="md:col-span-3" icon={<MessageSquare />} title={f.sms.title} body={f.sms.body} />
+
+          <Cell className="md:col-span-3" icon={<Repeat />} title={f.recurring.title} body={f.recurring.body} />
         </ul>
       </div>
     </section>

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
  */
 export default function PrivacyPage() {
   return (
-    <LegalPage title="Privacy policy" updated="1 October 2026">
+    <LegalPage title="Privacy policy" updated="5 October 2026">
       <p>
         This policy explains how <strong>Tech Cortix</strong> (“we”, “us”) handles information in the Cortix SL
         mobile app and on sl.techcortix.com. We wrote it to be read, not skimmed past.
@@ -25,7 +25,7 @@ export default function PrivacyPage() {
         <li><strong>Account details</strong> — your email address and name, or your Google account basics if you sign in with Google.</li>
         <li><strong>Expense data you enter</strong> — amounts, merchants, categories, dates, notes, budgets, currency preference and split-bill groups (member names or emails you add).</li>
         <li><strong>Receipt photos</strong> — only when you choose to scan one (see “AI processing” below).</li>
-        <li><strong>Text from voice or AI entry</strong> — the text of what you typed or said.</li>
+        <li><strong>Text from voice, AI entry, or a bank SMS you paste</strong> — the text of what you typed, said, or pasted. Pasted messages are used to suggest expenses you confirm. We do not read your SMS inbox.</li>
         <li><strong>Device and usage data</strong> — app events, device type and push-notification token, used to run and improve the app. You can turn product analytics off in Settings → Privacy.</li>
         <li><strong>Website waitlist</strong> — the email address you submit, stored so we can contact you about Cortix SL.</li>
         <li><strong>Product feedback</strong> — messages, optional name/email, category and screenshots you choose to send from the website or app, so we can improve Cortix SL.</li>
