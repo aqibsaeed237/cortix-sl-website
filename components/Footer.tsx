@@ -82,6 +82,7 @@ export function Footer({
 
         <FooterCol title={f.company}>
           <FooterLink href={companyUrl}>{c.company_name}</FooterLink>
+          <FooterLink href="/feedback">{f.feedback}</FooterLink>
           <FooterLink href={`mailto:${c.email}`}>{f.contact}</FooterLink>
         </FooterCol>
 

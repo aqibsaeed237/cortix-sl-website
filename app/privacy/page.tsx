@@ -28,6 +28,7 @@ export default function PrivacyPage() {
         <li><strong>Text from voice or AI entry</strong> — the text of what you typed or said.</li>
         <li><strong>Device and usage data</strong> — app events, device type and push-notification token, used to run and improve the app. You can turn product analytics off in Settings → Privacy.</li>
         <li><strong>Website waitlist</strong> — the email address you submit, stored so we can contact you about Cortix SL.</li>
+        <li><strong>Product feedback</strong> — messages, optional name/email, category and screenshots you choose to send from the website or app, so we can improve Cortix SL.</li>
       </ul>
 
       <h2>AI processing</h2>

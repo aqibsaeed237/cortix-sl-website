@@ -1,22 +1,22 @@
-import { ArrowLeft } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { ArrowLeft } from "lucide-react";
+import { FeedbackForm } from "@/components/FeedbackForm";
+import { Footer } from "@/components/Footer";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { Logo } from "@/components/ui/Logo";
 import { defaultLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { getLanding } from "@/lib/landing";
-import { Footer } from "./Footer";
-import { ThemeToggle } from "./ThemeToggle";
-import { Logo } from "./ui/Logo";
 
-export async function LegalPage({
-  title,
-  updated,
-  children,
-}: {
-  title: string;
-  updated: string;
-  children: ReactNode;
-}) {
+export const metadata: Metadata = {
+  title: "Send feedback",
+  description:
+    "Share bugs, feature ideas, pricing thoughts and suggestions for Cortix SL. We read every message.",
+  alternates: { canonical: "/feedback" },
+};
+
+export default async function FeedbackPage() {
   const t = getDictionary(defaultLocale);
   const landing = await getLanding();
 
@@ -31,16 +31,16 @@ export async function LegalPage({
         </div>
       </header>
       <main id="main" className="container-page py-16 md:py-24">
-        <article className="mx-auto max-w-3xl">
+        <div className="mx-auto max-w-2xl">
           <Link href="/" className="mb-8 inline-flex min-h-11 items-center gap-2 text-sm text-muted hover:text-fg">
             <ArrowLeft className="size-4 rtl:rotate-180" aria-hidden /> Back to home
           </Link>
-          <h1 className="text-h2 font-semibold text-fg">{title}</h1>
-          <p className="mt-3 text-sm text-subtle">Last updated: {updated}</p>
-          <div className="mt-10 space-y-5 text-[15px] leading-relaxed text-muted [&_a]:text-accent [&_a]:underline [&_a]:underline-offset-4 [&_h2]:mt-12 [&_h2]:mb-3 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-fg [&_li]:ms-5 [&_li]:list-disc [&_li]:ps-1 [&_strong]:text-fg [&_ul]:space-y-2">
-            {children}
+          <h1 className="text-h2 font-semibold text-fg">{t.feedbackForm.title}</h1>
+          <p className="mt-3 text-[15px] text-muted">{t.feedbackForm.body}</p>
+          <div className="mt-10">
+            <FeedbackForm t={t.feedbackForm} />
           </div>
-        </article>
+        </div>
       </main>
       <Footer t={t} landing={landing} privacyHref="/privacy" termsHref="/terms"} onHome={false} />
     </>

@@ -77,6 +77,43 @@ export async function submitWaitlist(payload: WaitlistPayload): Promise<Waitlist
   return parseJson<WaitlistResult>(res);
 }
 
+export type FeedbackPayload = {
+  email: string;
+  name?: string;
+  category: string;
+  subject?: string;
+  message: string;
+  company?: string;
+  elapsed_ms?: number;
+};
+
+export type FeedbackResult = {
+  id: string;
+  status: string;
+  category: string;
+  message: string;
+  created_at: string;
+  subject?: string | null;
+};
+
+export async function submitFeedback(payload: FeedbackPayload): Promise<FeedbackResult> {
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}/feedback`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...payload,
+        email: payload.email.trim().toLowerCase(),
+        message: payload.message.trim(),
+      }),
+    });
+  } catch (err) {
+    throw new Error(formatFetchError(err));
+  }
+  return parseJson<FeedbackResult>(res);
+}
+
 export function formatPhoneDisplay(phone: string): string {
   const digits = phone.replace(/\D/g, "");
   if (digits.startsWith("92") && digits.length >= 12) {

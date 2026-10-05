@@ -7,6 +7,7 @@ import { FactsBar } from "@/components/sections/FactsBar";
 import { Faq } from "@/components/sections/Faq";
 import { Features } from "@/components/sections/Features";
 import { Feedback } from "@/components/sections/Feedback";
+import { FeedbackCta } from "@/components/sections/FeedbackCta";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { Hero } from "@/components/sections/Hero";
 import { Pricing } from "@/components/sections/Pricing";
@@ -79,6 +80,7 @@ export default async function Home() {
         <Compare t={t} />
         <Pricing t={t} landing={landing} />
         <Feedback t={t} />
+        <FeedbackCta t={t} />
         <Security t={t} privacyHref={privacyHref} />
         <Faq eyebrow={t.faq.eyebrow} title={t.faq.title} items={faqItems} />
         <Waitlist t={t} landing={landing} />
