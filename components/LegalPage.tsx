@@ -42,7 +42,7 @@ export async function LegalPage({
           </div>
         </article>
       </main>
-      <Footer t={t} landing={landing} privacyHref="/privacy" termsHref="/terms"} onHome={false} />
+      <Footer t={t} landing={landing} privacyHref="/privacy" termsHref="/terms" onHome={false} />
     </>
   );
 }

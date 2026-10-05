@@ -42,7 +42,7 @@ export default async function FeedbackPage() {
           </div>
         </div>
       </main>
-      <Footer t={t} landing={landing} privacyHref="/privacy" termsHref="/terms"} onHome={false} />
+      <Footer t={t} landing={landing} privacyHref="/privacy" termsHref="/terms" onHome={false} />
     </>
   );
 }
