@@ -1,5 +1,6 @@
 import { isValidEmail } from "@/lib/api";
 import { getBackendUrl } from "@/lib/backendUrl";
+import { clientIp } from "@/lib/clientIp";
 
 export const dynamic = "force-dynamic";
 
@@ -19,14 +20,6 @@ function throttled(ip: string): boolean {
     for (const [k, v] of hits) if (v.every((t) => now - t >= WINDOW_MS)) hits.delete(k);
   }
   return recent.length > MAX_PER_WINDOW;
-}
-
-function clientIp(request: Request): string {
-  return (
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    request.headers.get("x-real-ip")?.trim() ||
-    "unknown"
-  );
 }
 
 function silentOk() {

@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["REPLACE_WITH_TEAM_ID.com.techcortix.cortix_sl"],
+        "components": [
+          { "/": "/invite/*", "comment": "Split-group invitations" },
+          { "/": "/auth/*", "comment": "Password reset and email confirmation" }
+        ]
+      }
+    ]
+  }
+}

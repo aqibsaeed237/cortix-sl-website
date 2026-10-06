@@ -6,7 +6,9 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: "/api/",
+      // An invite URL contains the token that joins a group. It is private to
+      // whoever was sent it and must never end up in an index.
+      disallow: ["/api/", "/invite/"],
     },
     sitemap: `${siteUrl}/sitemap.xml`,
     host: siteUrl,
