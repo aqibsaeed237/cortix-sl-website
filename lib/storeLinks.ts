@@ -1,3 +1,5 @@
+import { buildReferrer, websitePlayUrl, WEBSITE_UTM } from "./utm";
+
 /** Android package published as com.techcortix.cortix_sl */
 export const ANDROID_PACKAGE_ID = "com.techcortix.cortix_sl";
 
@@ -24,9 +26,13 @@ export type StoreLink = {
   external: boolean;
 };
 
-/** Play Store — always opens the listing in a new tab. */
-export function playStoreLink(fromApi?: string | null): StoreLink {
-  const href = resolvePlayStoreUrl(fromApi);
+/**
+ * Play Store — always opens the listing in a new tab.
+ * `placement` becomes `utm_content` so Play Console can tell the hero button
+ * from the nav button from the pricing card.
+ */
+export function playStoreLink(fromApi?: string | null, placement = "site"): StoreLink {
+  const href = websitePlayUrl(resolvePlayStoreUrl(fromApi), placement);
   return {
     href,
     label: "Get Cortix SL on Google Play (opens in new tab)",
@@ -51,24 +57,30 @@ export function appStoreLink(fromApi?: string | null): StoreLink {
   };
 }
 
-/** Prefer Play Store app on Android; HTTPS works everywhere. */
-export function playStoreHref(webUrl: string): string {
+/**
+ * Prefer the Play Store app on Android; HTTPS works everywhere.
+ * The `referrer` travels on the `market://` link too — dropping it there would
+ * lose attribution for exactly the users most likely to install.
+ */
+export function playStoreHref(webUrl: string, placement = "site"): string {
   if (typeof navigator !== "undefined" && /android/i.test(navigator.userAgent)) {
-    return `market://details?id=${ANDROID_PACKAGE_ID}`;
+    const referrer = encodeURIComponent(buildReferrer({ ...WEBSITE_UTM, content: placement }));
+    return `market://details?id=${ANDROID_PACKAGE_ID}&referrer=${referrer}`;
   }
   return webUrl;
 }
 
-export function openPlayStore(webUrl: string): void {
+export function openPlayStore(webUrl: string, placement = "site"): void {
   if (typeof window === "undefined") return;
+  const tagged = websitePlayUrl(webUrl, placement);
   if (/android/i.test(navigator.userAgent)) {
-    window.location.href = playStoreHref(webUrl);
+    window.location.href = playStoreHref(tagged, placement);
     window.setTimeout(() => {
-      window.open(webUrl, "_blank", "noopener,noreferrer");
+      window.open(tagged, "_blank", "noopener,noreferrer");
     }, 600);
     return;
   }
-  window.open(webUrl, "_blank", "noopener,noreferrer");
+  window.open(tagged, "_blank", "noopener,noreferrer");
 }
 
 /** Id of the waitlist email input, focused after scrolling to the section. */

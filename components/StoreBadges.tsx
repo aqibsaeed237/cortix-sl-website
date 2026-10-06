@@ -36,7 +36,7 @@ export function StoreBadges({
   labels,
 }: StoreBadgesProps) {
   const width = Math.round(height * (155 / 46));
-  const play = playStoreLink(playStoreUrl);
+  const play = playStoreLink(playStoreUrl, location);
   const appStore = resolveAppStoreUrl(appStoreUrl);
 
   return (
@@ -50,7 +50,7 @@ export function StoreBadges({
         onClick={(e) => {
           e.preventDefault();
           track("store_click", { store: "play", location });
-          openPlayStore(play.href);
+          openPlayStore(play.href, location);
         }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element -- official SVG badge */}

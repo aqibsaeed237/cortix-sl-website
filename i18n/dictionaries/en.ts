@@ -395,6 +395,7 @@ const en = {
     legal: "Legal",
     privacy: "Privacy policy",
     terms: "Terms of service",
+    deleteAccount: "Delete your account",
     contact: "Contact",
     feedback: "Feedback",
     madeIn: "Built in Pakistan, made for everyone.",

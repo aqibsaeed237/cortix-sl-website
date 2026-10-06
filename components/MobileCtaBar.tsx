@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { track } from "@/lib/analytics";
 import { openPlayStore, scrollToGetApp } from "@/lib/storeLinks";
+import { websitePlayUrl } from "@/lib/utm";
 
 /**
  * Sticky bottom CTA on phones. Appears once the hero CTA scrolls out of view
@@ -57,12 +58,12 @@ export function MobileCtaBar({
     >
       <div className="flex gap-2">
         <a
-          href={playStoreUrl}
+          href={websitePlayUrl(playStoreUrl, "mobile_bar")}
           className="btn btn-primary flex-1"
           onClick={(e) => {
             e.preventDefault();
             track("store_click", { store: "play", location: "mobile_bar" });
-            openPlayStore(playStoreUrl);
+            openPlayStore(playStoreUrl, "mobile_bar");
           }}
         >
           {labels.primary}

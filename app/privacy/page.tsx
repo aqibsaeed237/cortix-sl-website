@@ -72,7 +72,8 @@ export default function PrivacyPage() {
         <li><strong>Export</strong> — Pro and founding members can export their expenses as CSV, Excel or PDF.</li>
         <li>
           <strong>Delete your account</strong> — from the Profile screen. This removes your profile, expenses and settings
-          and deletes your sign-in account.
+          and deletes your sign-in account. If you cannot open the app, see{" "}
+          <a href="/delete-account">how to request deletion</a>.
         </li>
         <li>
           <strong>Waitlist</strong> — email us to remove your address from the website waitlist.

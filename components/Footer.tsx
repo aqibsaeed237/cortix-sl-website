@@ -89,6 +89,7 @@ export function Footer({
         <FooterCol title={f.legal}>
           <FooterLink href={privacyHref}>{f.privacy}</FooterLink>
           <FooterLink href={termsHref}>{f.terms}</FooterLink>
+          <FooterLink href="/delete-account">{f.deleteAccount}</FooterLink>
         </FooterCol>
       </div>
 

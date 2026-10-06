@@ -37,7 +37,7 @@ export function PricingCards({ t, playStoreUrl, upgradeHref, founding }: Props) 
   const playClick = (plan: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     track("store_click", { store: "play", location: `pricing_${plan}` });
-    openPlayStore(playStoreUrl);
+    openPlayStore(playStoreUrl, `pricing_${plan}`);
   };
 
   return (

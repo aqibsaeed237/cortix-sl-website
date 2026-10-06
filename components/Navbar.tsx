@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { track } from "@/lib/analytics";
 import { openPlayStore } from "@/lib/storeLinks";
+import { websitePlayUrl } from "@/lib/utm";
 import { ThemeToggle } from "./ThemeToggle";
 import { Logo } from "./ui/Logo";
 
@@ -54,7 +55,7 @@ export function Navbar({ labels, playStoreUrl }: { labels: NavLabels; playStoreU
   const getApp = (location: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     track("store_click", { store: "play", location });
-    openPlayStore(playStoreUrl);
+    openPlayStore(playStoreUrl, location);
     setOpen(false);
   };
 
@@ -87,7 +88,7 @@ export function Navbar({ labels, playStoreUrl }: { labels: NavLabels; playStoreU
         <div className="flex items-center gap-1">
           <ThemeToggle toDarkLabel={labels.themeToDark} toLightLabel={labels.themeToLight} />
           <a
-            href={playStoreUrl}
+            href={websitePlayUrl(playStoreUrl, "nav")}
             onClick={getApp("nav")}
             className="btn btn-primary ms-1 hidden !min-h-10 text-sm sm:inline-flex"
           >
@@ -121,7 +122,7 @@ export function Navbar({ labels, playStoreUrl }: { labels: NavLabels; playStoreU
             </li>
           ))}
           <li className="p-2">
-            <a href={playStoreUrl} onClick={getApp("nav_mobile")} className="btn btn-primary w-full">
+            <a href={websitePlayUrl(playStoreUrl, "nav_mobile")} onClick={getApp("nav_mobile")} className="btn btn-primary w-full">
               {labels.getApp}
             </a>
           </li>
