@@ -19,9 +19,22 @@ npm run build && npm start
 | `NEXT_PUBLIC_APP_STORE_URL` | App Store link (else iOS waitlist) | — |
 | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | Plausible analytics (cookieless) | off |
 | `NEXT_PUBLIC_GA_ID` | GA4 (`G-…`; needs a consent banner for EU/UK) | off |
+| `TRUSTED_PROXY_HOPS` | How many proxies in front of this app may be trusted in `X-Forwarded-For`, read by `lib/clientIp.ts`. `1` is correct on Vercel; raising it without a matching number of real proxies lets a client spoof its own IP | `1` |
 
 Contact details, store URLs and privacy/terms URLs are also editable in the admin
 `app_config` (served by `GET /public/landing`) and override the defaults.
+
+## Deep links
+
+`public/.well-known/` holds the Android App Link and iOS Universal Link
+association files, and **both still contain `REPLACE_WITH_…` placeholders**. Until
+they are filled and deployed, invite and password-reset links do not open the app
+— they fall through to the browser. `public/.well-known/README.md` says where each
+value comes from and has the `curl` and `adb` commands to verify a deploy.
+
+Note the iOS bundle id and the Android package genuinely differ:
+`com.techcortix.cortixSl` (camel case, no underscore) against
+`com.techcortix.cortix_sl`.
 
 ## Where things live
 
