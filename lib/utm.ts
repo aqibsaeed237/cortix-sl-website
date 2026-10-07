@@ -16,6 +16,16 @@ export type UtmParams = {
   campaign: string;
   /** Placement or creative, e.g. `nav`, `hero`, `pricing_free`. */
   content?: string;
+  /**
+   * Extra keys to carry through the install, beyond attribution.
+   *
+   * This is what makes a pre-install click resolve. Play hands the whole
+   * `referrer` string back to the app on first open, so an invite token or a
+   * referral code put in here survives the trip through the Play Store and
+   * the app can finish the job it was sent to do. Values are not slugged:
+   * a token is case-sensitive and must arrive byte-identical.
+   */
+  extra?: Record<string, string>;
 };
 
 /** Website links all share one source/campaign; the placement goes in `utm_content`. */
@@ -31,13 +41,17 @@ function slug(value: string): string {
 }
 
 /** The inner `utm_source=…&utm_medium=…` string, before it is encoded once more. */
-export function buildReferrer({ source, medium, campaign, content }: UtmParams): string {
+export function buildReferrer({ source, medium, campaign, content, extra }: UtmParams): string {
   const parts: string[] = [
     `utm_source=${slug(source)}`,
     `utm_medium=${slug(medium)}`,
     `utm_campaign=${slug(campaign)}`,
   ];
   if (content) parts.push(`utm_content=${slug(content)}`);
+  for (const [key, value] of Object.entries(extra ?? {})) {
+    if (!value) continue;
+    parts.push(`${slug(key)}=${encodeURIComponent(value)}`);
+  }
   return parts.join("&");
 }
 

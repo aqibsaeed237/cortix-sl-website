@@ -64,10 +64,14 @@ export default async function InvitePage({ params }: { params: Promise<{ token: 
   const { token } = await params;
   const result = await loadPreview(token);
 
+  // The token rides through the Play Store in the install referrer, so the
+  // first open after installing joins this group instead of landing the new
+  // user in an empty app with no idea what they clicked.
   const installUrl = withPlayReferrer(DEFAULT_PLAY_STORE_URL, {
     source: "invite",
     medium: "link",
     campaign: "split_invite",
+    extra: { invite: token },
   });
 
   return (
