@@ -4,9 +4,9 @@
     "target": {
       "namespace": "android_app",
       "package_name": "com.techcortix.cortix_sl",
-      "sha256_cert_fingerprints": [
-        "REPLACE_WITH_PLAY_APP_SIGNING_SHA256"
-      ]
+        "sha256_cert_fingerprints": [
+          "57:B7:91:A0:26:7E:F2:05:18:14:EF:26:CF:28:B4:49:A9:7E:07:11:03:6D:DA:66:14:C3:34:18:4E:EA:FA:0A"
+        ]
     }
   }
 ]
