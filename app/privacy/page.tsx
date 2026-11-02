@@ -54,7 +54,7 @@ export default function PrivacyPage() {
         <li>To send alerts and notifications you’ve enabled.</li>
         <li>To provide support and activate plan upgrades you request.</li>
         <li>For personalised insights, if enabled in Settings → Privacy.</li>
-        <li>For marketing emails (on by default; turn off anytime in Settings → Privacy).</li>
+        <li>For marketing emails, only after you turn them on in Settings → Privacy.</li>
       </ul>
       <p><strong>We never sell your personal information</strong> and there are no ads in the app.</p>
 
@@ -68,7 +68,7 @@ export default function PrivacyPage() {
 
       <h2>Your choices and rights</h2>
       <ul>
-        <li><strong>Privacy toggles</strong> — notifications, email alerts, and marketing emails start on; turn them off anytime in Settings → Privacy.</li>
+        <li><strong>Privacy toggles</strong> — notifications and email alerts start on so budget alerts work; turn them off in Settings. Marketing emails stay off until you opt in under Settings → Privacy. Product analytics and personalised insights start on; turn them off there too.</li>
         <li><strong>Export</strong> — Pro and founding members can export their expenses as CSV, Excel or PDF.</li>
         <li>
           <strong>Delete your account</strong> — from the Profile screen. This removes your profile, expenses and settings

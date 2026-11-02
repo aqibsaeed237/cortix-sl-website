@@ -270,7 +270,7 @@ const en = {
       },
       {
         title: "You're in control",
-        body: "Turn analytics, personalised insights and marketing emails on or off in Settings. Notifications, email alerts, and marketing emails are on by default — you can turn them off anytime.",
+        body: "Notifications and email alerts start on so budget alerts work. Marketing emails stay off until you opt in. Turn analytics, personalised insights and marketing emails on or off in Settings → Privacy.",
       },
       {
         title: "Delete anytime",
