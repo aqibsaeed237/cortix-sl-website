@@ -41,7 +41,7 @@ export default function DeleteAccountPage() {
           with the subject “Delete my Cortix SL account”.
         </li>
         <li>
-          Or message us on WhatsApp at <a href="https://wa.me/923116124245">+92 311 6124245</a>.
+          Or message us on WhatsApp at <a href="https://wa.me/923336645639">+92 333 6645639</a>.
         </li>
       </ul>
       <p>
@@ -92,7 +92,7 @@ export default function DeleteAccountPage() {
       <h2>Questions</h2>
       <p>
         Tech Cortix · <a href="mailto:contact@techcortix.com">contact@techcortix.com</a> · WhatsApp{" "}
-        <a href="https://wa.me/923116124245">+92 311 6124245</a> · see also our{" "}
+        <a href="https://wa.me/923336645639">+92 333 6645639</a> · see also our{" "}
         <a href="/privacy">privacy policy</a>.
       </p>
     </LegalPage>

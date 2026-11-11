@@ -96,7 +96,7 @@ export default function PrivacyPage() {
       <h2>Contact</h2>
       <p>
         Tech Cortix · <a href="mailto:contact@techcortix.com">contact@techcortix.com</a> · WhatsApp{" "}
-        <a href="https://wa.me/923116124245">+92 311 6124245</a>
+        <a href="https://wa.me/923336645639">+92 333 6645639</a>
       </p>
     </LegalPage>
   );
